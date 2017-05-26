@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import TodoList from './TodoList';
+import AddTodo from './AddTodo';
 
 class TodoApp extends Component {
     constructor () {
@@ -15,13 +16,18 @@ class TodoApp extends Component {
                     text: 'clean yard'
                 }
             ]
-        }
+        };
+        this.handleAddTodo = this.handleAddTodo.bind(this);
+    }
+    handleAddTodo (text) {
+        alert('new todo: ' + text);
     }
     render () {
         var {todos} = this.state;
         return (
             <div>
                 <TodoList todos={todos}/>
+                <AddTodo newTodo={this.handleAddTodo}/>
             </div>
         );
     }
