@@ -1,27 +1,26 @@
 import React, {Component} from 'react';
+import uuid from 'node-uuid';
+
 import TodoList from './TodoList';
 import AddTodo from './AddTodo';
 import TodoSearch from './TodoSearch';
-import uuid from 'node-uuid';
+import TodoAPI from '../api/TodoAPI';
+
+
 class TodoApp extends Component {
     constructor () {
         super();
         this.state = {
             showCompleted: false,
             searchText: '',
-            todos: [
-                {
-                    id: uuid(),
-                    text: 'walk dog'
-                },
-                {
-                    id: uuid(),
-                    text: 'clean yard'
-                }
-            ]
+            todos: TodoAPI.getTodos()
         };
         this.handleAddTodo = this.handleAddTodo.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
+        this.handleToggle = this.handleToggle.bind(this);
+    }
+    componentDidUpdate () {
+        TodoAPI.setTodos(this.state.todos);
     }
     handleAddTodo (text) {
         this.setState({
@@ -29,10 +28,22 @@ class TodoApp extends Component {
                 ...this.state.todos,
                 {
                     id: uuid(),
-                    text
+                    text,
+                    completed: false
                 }
             ]
         })
+    }
+    handleToggle (id) {
+        var updatedTodos = this.state.todos.map((todo) => {
+            if (todo.id === id) {
+                todo.completed = !todo.completed;
+            }
+
+            return todo;
+        });
+
+        this.setState({todos: updatedTodos});
     }
     handleSearch (showCompleted, searchText) {
         this.setState({
@@ -45,7 +56,7 @@ class TodoApp extends Component {
         return (
             <div>
                 <TodoSearch onSearch={this.handleSearch}/>
-                <TodoList todos={todos}/>
+                <TodoList todos={todos} onToggle={this.handleToggle}/>
                 <AddTodo newTodo={this.handleAddTodo}/>
             </div>
         );
