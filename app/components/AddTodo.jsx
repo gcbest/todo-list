@@ -15,13 +15,12 @@ class AddTodo extends Component {
     }
     render() {
         return (
-            <div>
+            <div container__footer>
                 <form onSubmit={this.onFormSubmit.bind(this)}>
                     <input type="text" ref="task" placeholder="Enter Todo Item"/>
                     <button className="button expanded">Add Todo</button>
                 </form>
             </div>
-
         );
     }
 }
