@@ -19,7 +19,7 @@ describe('Actions', () => {
        var action = {
            type: "ADD_TODO",
            text: "some todo text"
-       }
+       };
 
        var res = actions.addTodo(action.text);
 
