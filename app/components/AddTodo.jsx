@@ -1,14 +1,16 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
+var actions = require('../actions/actions');
 
-class AddTodo extends Component {
+export class AddTodo extends Component {
     onFormSubmit (e) {
         e.preventDefault();
-
+        var {dispatch} = this.props;
         var task = this.refs.task.value;
 
         if(task.length > 0) {
             this.refs.task.value = '';
-            this.props.newTodo(task);
+            dispatch(actions.addTodo(task));
         } else {
             this.refs.task.focus();
         }
@@ -25,4 +27,4 @@ class AddTodo extends Component {
     }
 }
 
-export default AddTodo;
+export default connect()(AddTodo);
